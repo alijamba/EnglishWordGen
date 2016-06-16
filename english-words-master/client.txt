@@ -1,0 +1,64 @@
+import json
+import textwrap
+def read_from_file(location):
+	file_reader = open(location, 'r')  # this function is used to open the file and read the data from it :)
+	data = file_reader.readlines()  # this reads all the lines from the file
+	return data  # this return the data to the program or area where the function was called
+
+
+def main():
+	# file_open_json = open("businesses.json")  # loading the data from the json file
+	result_dict = dict()
+	print("_" * 50)
+	buisness_file_list = list()
+	reviews_file_list = list()
+	review_result_list = list()
+	check = 0
+	buisnessname_user = raw_input("Enter a business name => ")
+	print(buisnessname_user)
+	with open('businesses.json') as file_read:  # A json file reader , an easy technique
+		for line in file_read:
+			data = json.loads(line)
+			if data["name"].__contains__(buisnessname_user):
+				check = 1
+				data = json.loads(line)
+				buisness_file_list.append(data["business_id"])
+	#print(buisness_file_list)
+	if buisness_file_list is None:
+		print("This business is not found")
+	else:
+		counter = 1
+		with open('reviews.json') as file_read2:
+			print(buisness_file_list)
+			print(type(buisness_file_list[0]))
+			for buisness_file_list_item in buisness_file_list:
+				#print (buisness_file_list_item)
+				#print(buisness_file_list_item)
+				counter = 1
+				#print (buisness_file_list)
+				for line in file_read2:
+					line =json.loads(line)
+					#print (line["business_id"])
+					#print (line["business_id"])
+					#print (buisness_file_list_item)
+					print(type(line["business_id"]))
+					if line["business_id"]== (buisness_file_list_item):
+						print("Review "+str(counter)+" :")
+						#line =json.loads(line)
+						result = line["text"]
+						result_list = textwrap.wrap(str(result),70)
+						for r in result_list:
+							output = str(r)
+
+							print (3*" " + output)
+						print('\n')
+						counter += 1
+		print("_" * 50)
+		if check == 0:
+			print ("This business is not found")
+		if counter == 1 and check > 0:
+			print ("No reviews for this business are found")
+
+
+if __name__ == '__main__':
+    main()
